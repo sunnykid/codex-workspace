@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     cors_enabled: bool = False
     cors_allow_origins: str = ""
+    database_url: str = "postgresql+psycopg://postgres:postgres@db:5432/app"
+    db_echo: bool = False
 
     model_config = SettingsConfigDict(
         env_file=".env",
