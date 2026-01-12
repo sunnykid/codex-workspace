@@ -73,6 +73,38 @@ curl "http://localhost:8000/health?db=1"
 {"status": "ok", "db": "ok"}
 ```
 
+## /search 사용법
+
+`/search`는 인증이 필요하며, 기본적으로 현재 사용자(owner_id)의 파일만 검색합니다.
+
+- `q`: 파일명 부분 검색 (`original_filename ILIKE "%q%"`)
+- `tag`: tags 배열에 포함된 값으로 필터 (tags는 JSON 배열, 예: `["a", "b"]`)
+- `owner_email`: 이번 버전에서는 지원하지 않으며 요청 시 400 오류를 반환합니다.
+- `limit`: 기본 50, 최대 100
+- `offset`: 기본 0
+
+### curl 예시
+
+```bash
+curl -H "Authorization: Bearer <token>" \\
+  "http://localhost:8000/search?q=report"
+```
+
+```bash
+curl -H "Authorization: Bearer <token>" \\
+  "http://localhost:8000/search?tag=finance"
+```
+
+```bash
+curl -H "Authorization: Bearer <token>" \\
+  "http://localhost:8000/search?q=report&tag=finance"
+```
+
+### 인덱스 참고
+
+- 기본 인덱스: `(owner_id, created_at)` 복합 인덱스, `tags` JSONB에 대한 GIN 인덱스
+- 추가 최적화(선택): `pg_trgm` 확장 + `original_filename`에 대한 GIN 트라이그램 인덱스
+
 ## CORS 동작
 
 - `CORS_ENABLED=true`일 때만 CORS 미들웨어가 활성화됩니다.
