@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, status
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -14,6 +14,14 @@ class RegisterRequest(BaseModel):
     email: str
     password: str
 
+    @field_validator("password")
+    @classmethod
+    def password_policy(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters.")
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError("Password must be at most 72 bytes (bcrypt limit).")
+        return v
 
 class RegisterResponse(BaseModel):
     id: int
@@ -25,6 +33,14 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
+    @field_validator("password")
+    @classmethod
+    def password_policy(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters.")
+        if len(v.encode("utf-8")) > 72:
+            raise ValueError("Password must be at most 72 bytes (bcrypt limit).")
+        return v
 
 class TokenResponse(BaseModel):
     access_token: str

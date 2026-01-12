@@ -95,7 +95,7 @@ export const listFiles = async (limit: number, offset: number) => {
 
 export const uploadFile = async (file: File, tags: string[]) => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("upload", file);
   if (tags.length > 0) {
     formData.append("tags", JSON.stringify(tags));
   }
