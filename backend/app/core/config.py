@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     db_echo: bool = False
     secret_key: str
     access_token_expire_minutes: int = 30
+    upload_root: str = "/data/uploads"
+    max_upload_mb: int = 50
 
     model_config = SettingsConfigDict(
         env_file=".env",
