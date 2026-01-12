@@ -24,8 +24,10 @@ def _resolve_cors_origins() -> list[str]:
         return [
             "http://localhost",
             "http://localhost:3000",
+            "http://localhost:5173",
             "http://127.0.0.1",
             "http://127.0.0.1:3000",
+            "http://127.0.0.1:5173",
         ]
     return []
 
