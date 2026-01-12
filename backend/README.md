@@ -110,6 +110,14 @@ curl -H "Authorization: Bearer <token>" \\
 - `CORS_ENABLED=true`일 때만 CORS 미들웨어가 활성화됩니다.
 - `CORS_ALLOW_ORIGINS`가 비어 있고 `ENV=dev`인 경우에만 localhost 계열 주소가 자동 허용됩니다.
   - 예: `http://localhost`, `http://localhost:3000`, `http://127.0.0.1`, `http://127.0.0.1:3000`
+  - Vite 개발 서버 예시: `http://localhost:5173`
+
+### 로컬 프론트엔드 연동 예시
+
+```bash
+CORS_ENABLED=true
+CORS_ALLOW_ORIGINS=http://localhost:5173
+```
 
 ## 생성된 파일 목록
 
