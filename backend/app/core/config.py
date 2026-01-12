@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     cors_allow_origins: str = ""
     database_url: str = "postgresql+psycopg://postgres:postgres@db:5432/app"
     db_echo: bool = False
+    secret_key: str
+    access_token_expire_minutes: int = 30
 
     model_config = SettingsConfigDict(
         env_file=".env",
