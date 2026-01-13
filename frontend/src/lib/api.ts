@@ -1,7 +1,6 @@
 import { clearToken, getToken, setToken } from "./auth";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL?.toString() || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.toString() || "/api";
 
 export type FileItem = {
   id: number;
