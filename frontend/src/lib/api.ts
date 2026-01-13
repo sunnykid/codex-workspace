@@ -131,6 +131,30 @@ export const searchFiles = async (
   return apiFetch(`/search?${params.toString()}`) as Promise<PaginatedResponse>;
 };
 
-export const downloadUrl = (id: number) => {
-  return `${API_BASE_URL}/files/${id}/download`;
-};
+export async function downloadFile(id: number, filename: string, token: string) {
+  const res = await fetch(`${API_BASE_URL}/files/${id}/download`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401) {
+    throw new Error("Unauthorized");
+  }
+
+  if (!res.ok) {
+    throw new Error("Download failed");
+  }
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+
